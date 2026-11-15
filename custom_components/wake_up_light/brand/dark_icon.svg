@@ -1,0 +1,20 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    :root {
+      color: var(--primary-color, #03a9f4);
+    }
+  </style>
+  <g fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Alarm Clock Shell & Bells -->
+    <g transform="scale(21.333) translate(0, 0)">
+      <path d="M7.88 3.39L6.6 1.86 2 5.71l1.29 1.53 4.59-3.85zM22 5.72l-4.6-3.86-1.29 1.53 4.6 3.86L22 5.72z" stroke="none" fill="currentColor" />
+      <path d="M12 4c-4.97 0-9 4.03-9 9s4.02 9 9 9a9 9 0 0 0 0-18zm0 16c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z" stroke="none" fill="currentColor" />
+      <rect x="6.5" y="14.5" width="11" height="1.5" rx="0.75" stroke="none" fill="currentColor" />
+      <path d="M8.5 14a3.5 3.5 0 0 1 7 0H8.5z" stroke="none" fill="currentColor" />
+      <rect x="11.25" y="7.5" width="1.5" height="2" rx="0.75" stroke="none" fill="currentColor" />
+      <rect x="7.8" y="9.1" width="1.5" height="2" rx="0.75" transform="rotate(-45 8.55 10.1)" stroke="none" fill="currentColor" />
+      <rect x="14.7" y="9.1" width="1.5" height="2" rx="0.75" transform="rotate(45 15.45 10.1)" stroke="none" fill="currentColor" />
+      <path d="M6.5 19.5l-1.5 2 1.6 1.2 1.5-2-1.6-1.2zm11 0l-1.6 1.2 1.5 2 1.6-1.2-1.5-2z" stroke="none" fill="currentColor" />
+    </g>
+  </g>
+</svg>

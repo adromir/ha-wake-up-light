@@ -25,6 +25,17 @@ Most standard wake-up light scripts suffer from a fundamental physical limitatio
 
 ---
 
+## 📸 Screenshots
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/adromir/ha-wake-up-light/main/Screenshots/wake-up-light-config.png" alt="Wake Up Light Configuration Dialog" width="800">
+</p>
+<p align="center">
+  <em>Configuration dialog: configure target lights, alarm source (input_datetime, mobile companion next alarm, or fixed time), perceptual easing duration, master switch, and realistic sunrise color temperature gradients.</em>
+</p>
+
+---
+
 ## Key Highlights
 
 - **Quadratic Perceptual Easing**: Starts near-imperceptibly in ultra-deep red/amber and gently accelerates towards dawn daylight.
