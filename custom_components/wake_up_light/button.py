@@ -35,7 +35,9 @@ class WakeUpLightStartButton(ButtonEntity):
     _attr_translation_key = "start"
     _attr_icon = "mdi:play-circle-outline"
 
-    def __init__(self, coordinator: WakeUpLightCoordinator, entry: ConfigEntry) -> None:
+    def __init__(
+        self, coordinator: WakeUpLightCoordinator, entry: ConfigEntry
+    ) -> None:
         """Initialize the button."""
         self.coordinator = coordinator
         self.entry = entry
@@ -59,7 +61,9 @@ class WakeUpLightStopButton(ButtonEntity):
     _attr_translation_key = "stop"
     _attr_icon = "mdi:stop-circle-outline"
 
-    def __init__(self, coordinator: WakeUpLightCoordinator, entry: ConfigEntry) -> None:
+    def __init__(
+        self, coordinator: WakeUpLightCoordinator, entry: ConfigEntry
+    ) -> None:
         """Initialize the button."""
         self.coordinator = coordinator
         self.entry = entry
@@ -83,7 +87,9 @@ class WakeUpLightSnoozeButton(ButtonEntity):
     _attr_translation_key = "snooze"
     _attr_icon = "mdi:alarm-snooze"
 
-    def __init__(self, coordinator: WakeUpLightCoordinator, entry: ConfigEntry) -> None:
+    def __init__(
+        self, coordinator: WakeUpLightCoordinator, entry: ConfigEntry
+    ) -> None:
         """Initialize the button."""
         self.coordinator = coordinator
         self.entry = entry

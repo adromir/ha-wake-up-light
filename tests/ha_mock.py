@@ -118,10 +118,13 @@ def setup_ha_mock():
     ha_helpers = types.ModuleType("homeassistant.helpers")
     ha_helpers.__path__ = []
     ha_event = types.ModuleType("homeassistant.helpers.event")
-    ha_event.async_track_point_in_time = lambda hass, cb, point: (lambda: None)
+    ha_event.async_track_point_in_time = (
+        lambda hass, cb, point: (lambda: None)
+    )
     ha_helpers.event = ha_event
 
     ha_selector = types.ModuleType("homeassistant.helpers.selector")
+
     class Selector:
         def __init__(self, *args, **kwargs):
             pass
@@ -134,16 +137,20 @@ def setup_ha_mock():
     ha_selector.SelectSelector = Selector
     ha_selector.SelectSelectorConfig = Selector
     ha_selector.SelectOptionDict = Selector
+
     class SelectSelectorMode:
         DROPDOWN = "dropdown"
         LIST = "list"
+
     ha_selector.SelectSelectorMode = SelectSelectorMode
     ha_selector.TimeSelector = Selector
     ha_selector.NumberSelector = Selector
     ha_selector.NumberSelectorConfig = Selector
+
     class NumberSelectorMode:
         SLIDER = "slider"
         BOX = "box"
+
     ha_selector.NumberSelectorMode = NumberSelectorMode
     ha_selector.BooleanSelector = Selector
     ha_helpers.selector = ha_selector
@@ -155,9 +162,11 @@ def setup_ha_mock():
     ha_helpers.config_validation = ha_cv
 
     ha_devreg = types.ModuleType("homeassistant.helpers.device_registry")
+
     class DeviceInfo(dict):
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
+
     ha_devreg.DeviceInfo = DeviceInfo
     ha_helpers.device_registry = ha_devreg
 
@@ -172,21 +181,31 @@ def setup_ha_mock():
     ha.data_entry_flow = ha_data_entry
 
     ha_const = types.ModuleType("homeassistant.const")
+
     class Platform:
         SWITCH = "switch"
         SENSOR = "sensor"
         BUTTON = "button"
+
     ha_const.Platform = Platform
     ha.const = ha_const
 
     ha_config = types.ModuleType("homeassistant.config_entries")
     ha_config.__path__ = []
+
     class ConfigEntry:
-        def __init__(self, entry_id="test_id", data=None, options=None, title="Test"):
+        def __init__(
+            self,
+            entry_id="test_id",
+            data=None,
+            options=None,
+            title="Test",
+        ):
             self.entry_id = entry_id
             self.data = data or {}
             self.options = options or {}
             self.title = title
+
     ha_config.ConfigEntry = ConfigEntry
 
     class ConfigFlow:
@@ -195,14 +214,22 @@ def setup_ha_mock():
             cls.DOMAIN = domain
 
         def async_show_form(self, step_id, data_schema=None, errors=None):
-            return {"type": "form", "step_id": step_id, "errors": errors or {}}
+            return {
+                "type": "form",
+                "step_id": step_id,
+                "errors": errors or {},
+            }
 
         def async_create_entry(self, title, data):
             return {"type": "create_entry", "title": title, "data": data}
 
     class OptionsFlow:
         def async_show_form(self, step_id, data_schema=None, errors=None):
-            return {"type": "form", "step_id": step_id, "errors": errors or {}}
+            return {
+                "type": "form",
+                "step_id": step_id,
+                "errors": errors or {},
+            }
 
         def async_create_entry(self, title, data):
             return {"type": "create_entry", "title": title, "data": data}
@@ -215,23 +242,30 @@ def setup_ha_mock():
     ha_components.__path__ = []
 
     ha_switch = types.ModuleType("homeassistant.components.switch")
+
     class SwitchEntity:
         pass
+
     ha_switch.SwitchEntity = SwitchEntity
     ha_components.switch = ha_switch
 
     ha_sensor = types.ModuleType("homeassistant.components.sensor")
+
     class SensorEntity:
         pass
+
     class SensorDeviceClass:
         TIMESTAMP = "timestamp"
+
     ha_sensor.SensorEntity = SensorEntity
     ha_sensor.SensorDeviceClass = SensorDeviceClass
     ha_components.sensor = ha_sensor
 
     ha_button = types.ModuleType("homeassistant.components.button")
+
     class ButtonEntity:
         pass
+
     ha_button.ButtonEntity = ButtonEntity
     ha_components.button = ha_button
 

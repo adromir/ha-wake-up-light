@@ -39,7 +39,9 @@ class WakeUpLightStatusSensor(SensorEntity):
     _attr_has_entity_name = True
     _attr_translation_key = "status"
 
-    def __init__(self, coordinator: WakeUpLightCoordinator, entry: ConfigEntry) -> None:
+    def __init__(
+        self, coordinator: WakeUpLightCoordinator, entry: ConfigEntry
+    ) -> None:
         """Initialize status sensor."""
         self.coordinator = coordinator
         self.entry = entry
@@ -53,7 +55,9 @@ class WakeUpLightStatusSensor(SensorEntity):
 
     async def async_added_to_hass(self) -> None:
         """Register coordinator update callbacks."""
-        self.async_on_remove(self.coordinator.register_listener(self._handle_update))
+        self.async_on_remove(
+            self.coordinator.register_listener(self._handle_update)
+        )
 
     @callback
     def _handle_update(self) -> None:
@@ -81,7 +85,9 @@ class WakeUpLightProgressSensor(SensorEntity):
     _attr_native_unit_of_measurement = "%"
     _attr_icon = "mdi:progress-clock"
 
-    def __init__(self, coordinator: WakeUpLightCoordinator, entry: ConfigEntry) -> None:
+    def __init__(
+        self, coordinator: WakeUpLightCoordinator, entry: ConfigEntry
+    ) -> None:
         """Initialize progress sensor."""
         self.coordinator = coordinator
         self.entry = entry
@@ -95,7 +101,9 @@ class WakeUpLightProgressSensor(SensorEntity):
 
     async def async_added_to_hass(self) -> None:
         """Register coordinator update callbacks."""
-        self.async_on_remove(self.coordinator.register_listener(self._handle_update))
+        self.async_on_remove(
+            self.coordinator.register_listener(self._handle_update)
+        )
 
     @callback
     def _handle_update(self) -> None:
@@ -116,7 +124,9 @@ class WakeUpLightNextStartSensor(SensorEntity):
     _attr_device_class = SensorDeviceClass.TIMESTAMP
     _attr_icon = "mdi:clock-start"
 
-    def __init__(self, coordinator: WakeUpLightCoordinator, entry: ConfigEntry) -> None:
+    def __init__(
+        self, coordinator: WakeUpLightCoordinator, entry: ConfigEntry
+    ) -> None:
         """Initialize timestamp sensor."""
         self.coordinator = coordinator
         self.entry = entry
@@ -130,7 +140,9 @@ class WakeUpLightNextStartSensor(SensorEntity):
 
     async def async_added_to_hass(self) -> None:
         """Register coordinator update callbacks."""
-        self.async_on_remove(self.coordinator.register_listener(self._handle_update))
+        self.async_on_remove(
+            self.coordinator.register_listener(self._handle_update)
+        )
 
     @callback
     def _handle_update(self) -> None:

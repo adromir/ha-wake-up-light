@@ -31,7 +31,9 @@ class WakeUpLightSwitch(SwitchEntity):
     _attr_translation_key = "profile"
     _attr_icon = "mdi:weather-sunset-up"
 
-    def __init__(self, coordinator: WakeUpLightCoordinator, entry: ConfigEntry) -> None:
+    def __init__(
+        self, coordinator: WakeUpLightCoordinator, entry: ConfigEntry
+    ) -> None:
         """Initialize the switch."""
         self.coordinator = coordinator
         self.entry = entry
@@ -45,7 +47,9 @@ class WakeUpLightSwitch(SwitchEntity):
 
     async def async_added_to_hass(self) -> None:
         """Register coordinator update callbacks."""
-        self.async_on_remove(self.coordinator.register_listener(self._handle_update))
+        self.async_on_remove(
+            self.coordinator.register_listener(self._handle_update)
+        )
 
     @callback
     def _handle_update(self) -> None:
@@ -87,5 +91,7 @@ class WakeUpLightSwitch(SwitchEntity):
             ),
             "duration_minutes": self.coordinator.get_duration_minutes(),
             "curve_style": self.coordinator.options.get(CONF_CURVE_STYLE),
-            "target_lights": self.coordinator.options.get(CONF_LIGHT_ENTITIES, []),
+            "target_lights": self.coordinator.options.get(
+                CONF_LIGHT_ENTITIES, []
+            ),
         }

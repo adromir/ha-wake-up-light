@@ -1,7 +1,7 @@
 """Calculation and simulation engine for Wake Up Light."""
 
 import asyncio
-from datetime import datetime, time as dt_time, timedelta
+from datetime import datetime, timedelta
 import logging
 from typing import Any
 
@@ -46,9 +46,11 @@ from .const import (
 _LOGGER = logging.getLogger(__name__)
 
 
-def calculate_brightness(progress: float, start_pct: int = 1, max_pct: int = 100) -> int:
+def calculate_brightness(
+    progress: float, start_pct: int = 1, max_pct: int = 100
+) -> int:
     """Calculate brightness (1-255) based on quadratic easing.
-    
+
     Eye sensitivity to light is logarithmic; quadratic easing ensures a soft,
     gentle ramp up at low intensities without sudden perception jumps.
     """
@@ -58,7 +60,9 @@ def calculate_brightness(progress: float, start_pct: int = 1, max_pct: int = 100
     return int(round(max(1, min(255, (pct / 100.0) * 255.0))))
 
 
-def calculate_kelvin(progress: float, curve_style: str = CURVE_SUNRISE) -> int:
+def calculate_kelvin(
+    progress: float, curve_style: str = CURVE_SUNRISE
+) -> int:
     """Calculate Kelvin color temperature for the current progress."""
     clamped = max(0.0, min(1.0, progress))
     if curve_style == CURVE_WARM:
@@ -68,8 +72,10 @@ def calculate_kelvin(progress: float, curve_style: str = CURVE_SUNRISE) -> int:
     return int(round(2000 + (2800 * (clamped ** 1.4))))
 
 
-def calculate_rgb(progress: float, curve_style: str = CURVE_SUNRISE) -> tuple[int, int, int]:
-    """Calculate RGB color for lights that do not directly support Kelvin."""
+def calculate_rgb(
+    progress: float, curve_style: str = CURVE_SUNRISE
+) -> tuple[int, int, int]:
+    """Calculate RGB color for lights without native Kelvin support."""
     clamped = max(0.0, min(1.0, progress))
     if curve_style == CURVE_BRIGHTNESS_ONLY:
         return (255, 255, 255)
@@ -97,9 +103,11 @@ def calculate_rgb(progress: float, curve_style: str = CURVE_SUNRISE) -> tuple[in
 
 
 class WakeUpLightCoordinator:
-    """Coordinator managing alarm checking, timers, and the sunrise simulation loop."""
+    """Coordinator managing alarm checking, timers, and simulation loop."""
 
-    def __init__(self, hass: HomeAssistant, entry_id: str, options: dict[str, Any]) -> None:
+    def __init__(
+        self, hass: HomeAssistant, entry_id: str, options: dict[str, Any]
+    ) -> None:
         """Initialize the coordinator."""
         self.hass = hass
         self.entry_id = entry_id
@@ -140,7 +148,7 @@ class WakeUpLightCoordinator:
                 _LOGGER.debug("Error notifying listener: %s", err)
 
     def get_duration_minutes(self) -> int:
-        """Get the configured duration in minutes, resolving helper entity if given."""
+        """Get configured duration in minutes, resolving helper entity."""
         duration_entity = self.options.get(CONF_DURATION_ENTITY)
         if duration_entity and self.hass.states.get(duration_entity):
             try:
@@ -160,8 +168,10 @@ class WakeUpLightCoordinator:
         return st in ("on", "true", "home", "1")
 
     def resolve_next_alarm(self) -> datetime | None:
-        """Resolve the next alarm time from the configured source."""
-        source_type = self.options.get(CONF_ALARM_SOURCE_TYPE, ALARM_SOURCE_INPUT_DATETIME)
+        """Resolve next alarm time from the configured source."""
+        source_type = self.options.get(
+            CONF_ALARM_SOURCE_TYPE, ALARM_SOURCE_INPUT_DATETIME
+        )
         now = dt_util.now()
 
         # 1. Input Datetime Source
@@ -197,14 +207,15 @@ class WakeUpLightCoordinator:
             h = attr.get("hour")
             m = attr.get("minute")
             if h is None or m is None:
-                # Try parsing string "HH:MM:SS" or "HH:MM"
                 try:
                     parts = [int(p) for p in state_obj.state.split(":")[:2]]
                     h, m = parts[0], parts[1]
                 except Exception:
                     return None
 
-            target_today = now.replace(hour=h, minute=m, second=0, microsecond=0)
+            target_today = now.replace(
+                hour=h, minute=m, second=0, microsecond=0
+            )
             if target_today > now:
                 return target_today
             return target_today + timedelta(days=1)
@@ -218,7 +229,6 @@ class WakeUpLightCoordinator:
             if not state_obj or state_obj.state in ("unknown", "unavailable"):
                 return None
 
-            # Try ISO string in state or attribute
             ts_str = state_obj.state
             if state_obj.attributes.get("next_alarm"):
                 ts_str = state_obj.attributes["next_alarm"]
@@ -278,7 +288,9 @@ class WakeUpLightCoordinator:
             self.next_start_time = None
             # Recheck every 5 minutes if alarm cannot be resolved right now
             self._check_unsub = async_track_point_in_time(
-                self.hass, self._async_timer_tick, dt_util.now() + timedelta(minutes=5)
+                self.hass,
+                self._async_timer_tick,
+                dt_util.now() + timedelta(minutes=5),
             )
             self._notify_listeners()
             return
@@ -293,11 +305,10 @@ class WakeUpLightCoordinator:
 
         now = dt_util.now()
         if start_dt <= now:
-            # If start time already passed but alarm has not yet arrived, start immediately
+            # If start time passed but alarm has not, start immediately
             if alarm_dt > now and self.status == STATUS_IDLE:
                 self.async_start_simulation()
                 return
-            # Otherwise recheck after next alarm passes
             wake_target = alarm_dt + timedelta(seconds=10)
         else:
             wake_target = start_dt
@@ -314,7 +325,10 @@ class WakeUpLightCoordinator:
         now = dt_util.now()
 
         if self.enabled and self.is_enabled_by_helper():
-            if self.next_start_time and abs((self.next_start_time - now).total_seconds()) < 90:
+            if (
+                self.next_start_time
+                and abs((self.next_start_time - now).total_seconds()) < 90
+            ):
                 self.async_start_simulation()
                 return
 
@@ -358,7 +372,7 @@ class WakeUpLightCoordinator:
         self.reschedule()
 
     def async_snooze(self, minutes: int = DEFAULT_SNOOZE_MINUTES) -> None:
-        """Snooze the light: dims down and restarts after the given delay."""
+        """Snooze the light: dims down and restarts after given delay."""
         if self._simulation_task and not self._simulation_task.done():
             self._simulation_task.cancel()
             self._simulation_task = None
@@ -373,7 +387,11 @@ class WakeUpLightCoordinator:
                 self.hass.services.async_call(
                     "light",
                     "turn_on",
-                    {"entity_id": light_id, "brightness": 5, "transition": 2},
+                    {
+                        "entity_id": light_id,
+                        "brightness": 5,
+                        "transition": 2,
+                    },
                 )
             )
 
@@ -384,11 +402,13 @@ class WakeUpLightCoordinator:
             self.async_start_simulation()
 
         self._check_unsub = async_track_point_in_time(
-            self.hass, _wake_after_snooze, dt_util.now() + timedelta(minutes=minutes)
+            self.hass,
+            _wake_after_snooze,
+            dt_util.now() + timedelta(minutes=minutes),
         )
 
     async def _simulation_loop(self) -> None:
-        """Perform the step-by-step sunrise fading."""
+        """Perform step-by-step sunrise fading."""
         duration_sec = self.get_duration_minutes() * 60
         if duration_sec <= 0:
             duration_sec = 60
@@ -396,8 +416,12 @@ class WakeUpLightCoordinator:
         step_sec = DEFAULT_STEP_SECONDS
         total_steps = max(1, int(round(duration_sec / step_sec)))
 
-        start_pct = int(self.options.get(CONF_START_BRIGHTNESS, DEFAULT_START_BRIGHTNESS))
-        max_pct = int(self.options.get(CONF_MAX_BRIGHTNESS, DEFAULT_MAX_BRIGHTNESS))
+        start_pct = int(
+            self.options.get(CONF_START_BRIGHTNESS, DEFAULT_START_BRIGHTNESS)
+        )
+        max_pct = int(
+            self.options.get(CONF_MAX_BRIGHTNESS, DEFAULT_MAX_BRIGHTNESS)
+        )
         curve_style = self.options.get(CONF_CURVE_STYLE, CURVE_SUNRISE)
         lights = self.options.get(CONF_LIGHT_ENTITIES, [])
         stop_on_switch = self.options.get(CONF_STOP_ON_MANUAL_SWITCH, True)
@@ -423,9 +447,11 @@ class WakeUpLightCoordinator:
                     if not st:
                         continue
 
-                    # Check for manual user intervention if turned off mid-simulation
+                    # Abort if manually turned off
                     if stop_on_switch and step > 1 and st.state == "off":
-                        _LOGGER.info("Wake-up light aborted: %s was manually turned off", light_id)
+                        _LOGGER.info(
+                            "Wake-up light aborted: %s turned off", light_id
+                        )
                         self.status = STATUS_IDLE
                         self._notify_listeners()
                         self.reschedule()
@@ -439,15 +465,22 @@ class WakeUpLightCoordinator:
 
                     modes = st.attributes.get("supported_color_modes") or []
                     if curve_style != CURVE_BRIGHTNESS_ONLY:
-                        if "color_temp" in modes or "color_temp_kelvin" in modes:
+                        if (
+                            "color_temp" in modes
+                            or "color_temp_kelvin" in modes
+                        ):
                             service_data["color_temp_kelvin"] = kelvin
                         elif any(m in modes for m in ("rgb", "rgbw", "rgbww")):
                             service_data["rgb_color"] = rgb
 
                     try:
-                        await self.hass.services.async_call("light", "turn_on", service_data)
+                        await self.hass.services.async_call(
+                            "light", "turn_on", service_data
+                        )
                     except Exception as err:
-                        _LOGGER.debug("Error updating light %s: %s", light_id, err)
+                        _LOGGER.debug(
+                            "Error updating light %s: %s", light_id, err
+                        )
 
                 self._notify_listeners()
 
@@ -460,14 +493,20 @@ class WakeUpLightCoordinator:
             self._notify_listeners()
 
             # Handle Auto-Off
-            auto_off_min = int(self.options.get(CONF_AUTO_OFF_MINUTES, DEFAULT_AUTO_OFF_MINUTES))
+            auto_off_min = int(
+                self.options.get(
+                    CONF_AUTO_OFF_MINUTES, DEFAULT_AUTO_OFF_MINUTES
+                )
+            )
             if auto_off_min > 0:
                 @callback
                 def _auto_turn_off(_now: datetime) -> None:
                     self.async_stop_simulation(turn_off_lights=True)
 
                 self._auto_off_unsub = async_track_point_in_time(
-                    self.hass, _auto_turn_off, dt_util.now() + timedelta(minutes=auto_off_min)
+                    self.hass,
+                    _auto_turn_off,
+                    dt_util.now() + timedelta(minutes=auto_off_min),
                 )
 
         except asyncio.CancelledError:

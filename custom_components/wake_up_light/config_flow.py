@@ -14,7 +14,6 @@ import voluptuous as vol
 from .const import (
     ALARM_SOURCE_INPUT_DATETIME,
     ALARM_SOURCE_SENSOR,
-    ALARM_SOURCE_TIME,
     ALARM_SOURCES,
     CONF_ALARM_ENTITY,
     CONF_ALARM_SOURCE_TYPE,
@@ -27,7 +26,6 @@ from .const import (
     CONF_LIGHT_ENTITIES,
     CONF_MANUAL_TIME,
     CONF_MAX_BRIGHTNESS,
-    CONF_PRE_ALARM_OFFSET,
     CONF_START_BRIGHTNESS,
     CONF_STOP_ON_MANUAL_SWITCH,
     CURVE_STYLES,
@@ -58,7 +56,9 @@ def build_schema(options: dict[str, Any] | None = None) -> vol.Schema:
             ),
             vol.Required(
                 CONF_ALARM_SOURCE_TYPE,
-                default=opts.get(CONF_ALARM_SOURCE_TYPE, ALARM_SOURCE_INPUT_DATETIME),
+                default=opts.get(
+                    CONF_ALARM_SOURCE_TYPE, ALARM_SOURCE_INPUT_DATETIME
+                ),
             ): selector.SelectSelector(
                 selector.SelectSelectorConfig(
                     options=[
@@ -73,7 +73,9 @@ def build_schema(options: dict[str, Any] | None = None) -> vol.Schema:
                 CONF_ALARM_ENTITY,
                 description={"suggested_value": opts.get(CONF_ALARM_ENTITY)},
             ): selector.EntitySelector(
-                selector.EntitySelectorConfig(domain=["input_datetime", "sensor"])
+                selector.EntitySelectorConfig(
+                    domain=["input_datetime", "sensor"]
+                )
             ),
             vol.Optional(
                 CONF_MANUAL_TIME,
@@ -107,15 +109,23 @@ def build_schema(options: dict[str, Any] | None = None) -> vol.Schema:
             ),
             vol.Optional(
                 CONF_DURATION_ENTITY,
-                description={"suggested_value": opts.get(CONF_DURATION_ENTITY)},
+                description={
+                    "suggested_value": opts.get(CONF_DURATION_ENTITY)
+                },
             ): selector.EntitySelector(
-                selector.EntitySelectorConfig(domain=["input_number", "number"])
+                selector.EntitySelectorConfig(
+                    domain=["input_number", "number"]
+                )
             ),
             vol.Optional(
                 CONF_ENABLED_ENTITY,
-                description={"suggested_value": opts.get(CONF_ENABLED_ENTITY)},
+                description={
+                    "suggested_value": opts.get(CONF_ENABLED_ENTITY)
+                },
             ): selector.EntitySelector(
-                selector.EntitySelectorConfig(domain=["input_boolean", "switch"])
+                selector.EntitySelectorConfig(
+                    domain=["input_boolean", "switch"]
+                )
             ),
             vol.Required(
                 CONF_CURVE_STYLE,
@@ -132,7 +142,9 @@ def build_schema(options: dict[str, Any] | None = None) -> vol.Schema:
             ),
             vol.Required(
                 CONF_START_BRIGHTNESS,
-                default=opts.get(CONF_START_BRIGHTNESS, DEFAULT_START_BRIGHTNESS),
+                default=opts.get(
+                    CONF_START_BRIGHTNESS, DEFAULT_START_BRIGHTNESS
+                ),
             ): selector.NumberSelector(
                 selector.NumberSelectorConfig(
                     min=1,
@@ -144,7 +156,9 @@ def build_schema(options: dict[str, Any] | None = None) -> vol.Schema:
             ),
             vol.Required(
                 CONF_MAX_BRIGHTNESS,
-                default=opts.get(CONF_MAX_BRIGHTNESS, DEFAULT_MAX_BRIGHTNESS),
+                default=opts.get(
+                    CONF_MAX_BRIGHTNESS, DEFAULT_MAX_BRIGHTNESS
+                ),
             ): selector.NumberSelector(
                 selector.NumberSelectorConfig(
                     min=10,
@@ -156,7 +170,9 @@ def build_schema(options: dict[str, Any] | None = None) -> vol.Schema:
             ),
             vol.Required(
                 CONF_AUTO_OFF_MINUTES,
-                default=opts.get(CONF_AUTO_OFF_MINUTES, DEFAULT_AUTO_OFF_MINUTES),
+                default=opts.get(
+                    CONF_AUTO_OFF_MINUTES, DEFAULT_AUTO_OFF_MINUTES
+                ),
             ): selector.NumberSelector(
                 selector.NumberSelectorConfig(
                     min=0,
@@ -200,7 +216,9 @@ class WakeUpLightConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 if len(lights) == 1:
                     st = self.hass.states.get(lights[0])
                     if st and st.attributes.get("friendly_name"):
-                        title = f"Wake Up Light ({st.attributes['friendly_name']})"
+                        title = (
+                            f"Wake Up Light ({st.attributes['friendly_name']})"
+                        )
 
                 return self.async_create_entry(title=title, data=user_input)
 

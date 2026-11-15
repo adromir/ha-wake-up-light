@@ -1,6 +1,7 @@
 """Unit tests for Wake Up Light calculation engine and coordinator."""
 
-import tests.ha_mock  # noqa: F401 - Must be imported first to establish mock HA environment
+# Establish mock HA environment before importing components
+import tests.ha_mock  # noqa: F401
 
 from datetime import datetime, timedelta, timezone
 import unittest
@@ -11,7 +12,6 @@ from custom_components.wake_up_light.const import (
     ALARM_SOURCE_INPUT_DATETIME,
     CONF_ALARM_ENTITY,
     CONF_ALARM_SOURCE_TYPE,
-    CONF_CURVE_STYLE,
     CONF_DURATION,
     CONF_DURATION_ENTITY,
     CONF_ENABLED_ENTITY,
@@ -34,7 +34,7 @@ class TestWakeUpLightSimulator(unittest.TestCase):
     """Test suite for math curves and coordinator logic."""
 
     def test_calculate_brightness_quadratic_easing(self):
-        """Test quadratic easing ensures gentle start and accurate maximum."""
+        """Test quadratic easing ensures gentle start and accurate max."""
         # At 0.0 -> start_pct (1%) -> min 3 in 0-255 scale
         b_0 = calculate_brightness(0.0, start_pct=1, max_pct=100)
         self.assertGreaterEqual(b_0, 1)
@@ -131,7 +131,12 @@ class TestWakeUpLightSimulator(unittest.TestCase):
         hass.states.set(
             "input_datetime.wake_time",
             f"{target.hour:02d}:{target.minute:02d}:00",
-            {"hour": target.hour, "minute": target.minute, "has_date": False, "has_time": True},
+            {
+                "hour": target.hour,
+                "minute": target.minute,
+                "has_date": False,
+                "has_time": True,
+            },
         )
 
         alarm_dt = coord.resolve_next_alarm()
@@ -149,7 +154,11 @@ class TestWakeUpLightSimulator(unittest.TestCase):
     def test_coordinator_snooze(self):
         """Test snooze functionality."""
         hass = MockHass()
-        hass.states.set("light.bedroom", "on", {"supported_color_modes": ["color_temp_kelvin"]})
+        hass.states.set(
+            "light.bedroom",
+            "on",
+            {"supported_color_modes": ["color_temp_kelvin"]},
+        )
         options = {
             CONF_LIGHT_ENTITIES: ["light.bedroom"],
             CONF_DURATION: 10,

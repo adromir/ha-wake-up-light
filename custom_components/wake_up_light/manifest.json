@@ -7,5 +7,5 @@
   "issue_tracker": "https://github.com/adromir/ha-wake-up-light/issues",
   "integration_type": "helper",
   "iot_class": "local_push",
-  "version": "1.0.0"
+  "version": "1.0.1"
 }

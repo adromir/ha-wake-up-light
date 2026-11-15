@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import logging
-from typing import Any
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, ServiceCall
@@ -39,7 +38,9 @@ SERVICE_STOP_SCHEMA = vol.Schema(
 SERVICE_SNOOZE_SCHEMA = vol.Schema(
     {
         vol.Optional("entry_id"): cv.string,
-        vol.Optional("minutes", default=DEFAULT_SNOOZE_MINUTES): cv.positive_int,
+        vol.Optional(
+            "minutes", default=DEFAULT_SNOOZE_MINUTES
+        ): cv.positive_int,
     }
 )
 
@@ -57,7 +58,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     # Initial schedule calculation
     coordinator.reschedule()
 
-    entry.async_on_unload(entry.add_update_listener(async_update_options))
+    entry.async_on_unload(
+        entry.add_update_listener(async_update_options)
+    )
 
     # Register domain services if not already registered
     _register_services(hass)
@@ -65,7 +68,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     return True
 
 
-async def async_update_options(hass: HomeAssistant, entry: ConfigEntry) -> None:
+async def async_update_options(
+    hass: HomeAssistant, entry: ConfigEntry
+) -> None:
     """Handle options update."""
     coordinator: WakeUpLightCoordinator = hass.data[DOMAIN].get(entry.entry_id)
     if coordinator:
@@ -73,13 +78,17 @@ async def async_update_options(hass: HomeAssistant, entry: ConfigEntry) -> None:
         coordinator.update_options(config_data)
 
 
-async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
+async def async_unload_entry(
+    hass: HomeAssistant, entry: ConfigEntry
+) -> bool:
     """Unload a config entry."""
     coordinator: WakeUpLightCoordinator = hass.data[DOMAIN].get(entry.entry_id)
     if coordinator:
         coordinator.async_stop_simulation(turn_off_lights=False)
 
-    unload_ok = await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
+    unload_ok = await hass.config_entries.async_unload_platforms(
+        entry, PLATFORMS
+    )
     if unload_ok:
         hass.data[DOMAIN].pop(entry.entry_id, None)
 
