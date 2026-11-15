@@ -1,0 +1,11 @@
+{
+  "domain": "wake_up_light",
+  "name": "Wake Up Light",
+  "codeowners": ["@adromir"],
+  "config_flow": true,
+  "documentation": "https://github.com/adromir/ha-wake-up-light",
+  "issue_tracker": "https://github.com/adromir/ha-wake-up-light/issues",
+  "integration_type": "helper",
+  "iot_class": "local_push",
+  "version": "1.0.0"
+}

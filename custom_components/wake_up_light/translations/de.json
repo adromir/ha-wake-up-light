@@ -1,0 +1,133 @@
+{
+  "title": "Wake Up Light",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Wake Up Light einrichten",
+        "description": "Erstelle eine sanfte Sonnenaufgangs-Simulation mit quadratischer, augenschonender Kurve.",
+        "data": {
+          "light_entities": "Ziel-Leuchten",
+          "alarm_source_type": "Weckzeit-Quelle",
+          "alarm_entity": "Wecker-Entität",
+          "manual_time": "Feste Weckzeit",
+          "days": "Aktive Wochentage",
+          "duration": "Standarddauer (Minuten)",
+          "duration_entity": "Dynamische Dauer (Helfer, optional)",
+          "enabled_entity": "Hauptschalter / Master-Helfer (optional)",
+          "curve_style": "Farbverlauf / Farbtemperatur",
+          "start_brightness": "Start-Helligkeit (%)",
+          "max_brightness": "Ziel-Helligkeit (%)",
+          "auto_off_minutes": "Automatisches Ausschalten (Minuten, 0 zum Deaktivieren)",
+          "stop_on_manual_switch": "Simulation stoppen, wenn Leuchte manuell ausgeschaltet wird"
+        }
+      }
+    },
+    "error": {
+      "no_lights_selected": "Bitte wähle mindestens eine Leuchte aus.",
+      "no_alarm_entity_selected": "Bitte wähle eine Wecker-Entität für die gewählte Quelle aus."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Wake Up Light Einstellungen",
+        "description": "Passe Sonnenaufgangs-Parameter, Weckzeit-Quellen oder Leuchten an.",
+        "data": {
+          "light_entities": "Ziel-Leuchten",
+          "alarm_source_type": "Weckzeit-Quelle",
+          "alarm_entity": "Wecker-Entität",
+          "manual_time": "Feste Weckzeit",
+          "days": "Aktive Wochentage",
+          "duration": "Standarddauer (Minuten)",
+          "duration_entity": "Dynamische Dauer (Helfer, optional)",
+          "enabled_entity": "Hauptschalter / Master-Helfer (optional)",
+          "curve_style": "Farbverlauf / Farbtemperatur",
+          "start_brightness": "Start-Helligkeit (%)",
+          "max_brightness": "Ziel-Helligkeit (%)",
+          "auto_off_minutes": "Automatisches Ausschalten (Minuten, 0 zum Deaktivieren)",
+          "stop_on_manual_switch": "Simulation stoppen, wenn Leuchte manuell ausgeschaltet wird"
+        }
+      }
+    },
+    "error": {
+      "no_lights_selected": "Bitte wähle mindestens eine Leuchte aus.",
+      "no_alarm_entity_selected": "Bitte wähle eine Wecker-Entität für die gewählte Quelle aus."
+    }
+  },
+  "selector": {
+    "alarm_source_type": {
+      "options": {
+        "input_datetime": "Uhrzeit-Helfer (input_datetime)",
+        "sensor": "Nächster Wecker Sensor (HA App / Echo / Google)",
+        "time": "Feste Uhrzeit & Wochentage"
+      }
+    },
+    "curve_style": {
+      "options": {
+        "sunrise": "Realistischer Sonnenaufgang (Tief-Bernstein bis Tageslicht 4800K)",
+        "warm": "Warmes Erwachen (Bernstein bis Warmweiß 3000K)",
+        "brightness_only": "Nur Helligkeit (Farbe bleibt unverändert)"
+      }
+    },
+    "days": {
+      "options": {
+        "mon": "Montag",
+        "tue": "Dienstag",
+        "wed": "Mittwoch",
+        "thu": "Donnerstag",
+        "fri": "Freitag",
+        "sat": "Samstag",
+        "sun": "Sonntag"
+      }
+    }
+  },
+  "entity": {
+    "switch": {
+      "profile": {
+        "name": "Profil"
+      }
+    },
+    "sensor": {
+      "status": {
+        "name": "Status",
+        "state": {
+          "idle": "Bereit",
+          "simulating": "Sonnenaufgang läuft",
+          "snoozed": "Schlummern (Snooze)",
+          "completed": "Abgeschlossen"
+        }
+      },
+      "progress": {
+        "name": "Sonnenaufgang Fortschritt"
+      },
+      "next_start": {
+        "name": "Nächster Start"
+      }
+    },
+    "button": {
+      "start": {
+        "name": "Sonnenaufgang testen"
+      },
+      "stop": {
+        "name": "Sonnenaufgang stoppen"
+      },
+      "snooze": {
+        "name": "Schlummern (Snooze)"
+      }
+    }
+  },
+  "services": {
+    "start": {
+      "name": "Sonnenaufgang starten",
+      "description": "Startet die Sonnenaufgangs-Simulation sofort."
+    },
+    "stop": {
+      "name": "Sonnenaufgang stoppen",
+      "description": "Stoppt die aktive Sonnenaufgangs-Simulation."
+    },
+    "snooze": {
+      "name": "Schlummern",
+      "description": "Pausiert das Wecklicht für die angegebene Anzahl an Minuten."
+    }
+  }
+}

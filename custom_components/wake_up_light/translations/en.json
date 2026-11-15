@@ -1,0 +1,133 @@
+{
+  "title": "Wake Up Light",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Configure Wake Up Light",
+        "description": "Set up a natural sunrise simulation using quadratic perceptual easing.",
+        "data": {
+          "light_entities": "Target Lights",
+          "alarm_source_type": "Alarm Source Type",
+          "alarm_entity": "Alarm Entity",
+          "manual_time": "Wake-up Time",
+          "days": "Active Days",
+          "duration": "Default Duration (minutes)",
+          "duration_entity": "Dynamic Duration Entity (optional)",
+          "enabled_entity": "Master Enable Switch/Helper (optional)",
+          "curve_style": "Color Temperature / Gradient Style",
+          "start_brightness": "Start Brightness (%)",
+          "max_brightness": "Target Brightness (%)",
+          "auto_off_minutes": "Auto-Off Delay (minutes, 0 to disable)",
+          "stop_on_manual_switch": "Abort simulation if light is switched off manually"
+        }
+      }
+    },
+    "error": {
+      "no_lights_selected": "Please select at least one light entity.",
+      "no_alarm_entity_selected": "Please choose an alarm entity for the selected alarm source."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Wake Up Light Options",
+        "description": "Update sunrise parameters, timings, or target lights.",
+        "data": {
+          "light_entities": "Target Lights",
+          "alarm_source_type": "Alarm Source Type",
+          "alarm_entity": "Alarm Entity",
+          "manual_time": "Wake-up Time",
+          "days": "Active Days",
+          "duration": "Default Duration (minutes)",
+          "duration_entity": "Dynamic Duration Entity (optional)",
+          "enabled_entity": "Master Enable Switch/Helper (optional)",
+          "curve_style": "Color Temperature / Gradient Style",
+          "start_brightness": "Start Brightness (%)",
+          "max_brightness": "Target Brightness (%)",
+          "auto_off_minutes": "Auto-Off Delay (minutes, 0 to disable)",
+          "stop_on_manual_switch": "Abort simulation if light is switched off manually"
+        }
+      }
+    },
+    "error": {
+      "no_lights_selected": "Please select at least one light entity.",
+      "no_alarm_entity_selected": "Please choose an alarm entity for the selected alarm source."
+    }
+  },
+  "selector": {
+    "alarm_source_type": {
+      "options": {
+        "input_datetime": "Input Datetime (HA Helper)",
+        "sensor": "Next Alarm Sensor (App / Alexa)",
+        "time": "Fixed Schedule / Weekdays"
+      }
+    },
+    "curve_style": {
+      "options": {
+        "sunrise": "Realistic Sunrise (Deep Amber to Daylight 4800K)",
+        "warm": "Warm Glow (Amber to Warm White 3000K)",
+        "brightness_only": "Brightness Only (Dimming only, color untouched)"
+      }
+    },
+    "days": {
+      "options": {
+        "mon": "Monday",
+        "tue": "Tuesday",
+        "wed": "Wednesday",
+        "thu": "Thursday",
+        "fri": "Friday",
+        "sat": "Saturday",
+        "sun": "Sunday"
+      }
+    }
+  },
+  "entity": {
+    "switch": {
+      "profile": {
+        "name": "Profile"
+      }
+    },
+    "sensor": {
+      "status": {
+        "name": "Status",
+        "state": {
+          "idle": "Idle",
+          "simulating": "Simulating Sunrise",
+          "snoozed": "Snoozed",
+          "completed": "Completed"
+        }
+      },
+      "progress": {
+        "name": "Sunrise Progress"
+      },
+      "next_start": {
+        "name": "Next Sunrise Start"
+      }
+    },
+    "button": {
+      "start": {
+        "name": "Test Sunrise"
+      },
+      "stop": {
+        "name": "Stop Sunrise"
+      },
+      "snooze": {
+        "name": "Snooze"
+      }
+    }
+  },
+  "services": {
+    "start": {
+      "name": "Start Sunrise",
+      "description": "Trigger sunrise simulation immediately."
+    },
+    "stop": {
+      "name": "Stop Sunrise",
+      "description": "Stop sunrise simulation."
+    },
+    "snooze": {
+      "name": "Snooze",
+      "description": "Snooze the wake-up light for the specified amount of minutes."
+    }
+  }
+}

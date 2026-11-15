@@ -1,0 +1,133 @@
+{
+  "title": "Wake Up Light",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Konfigurasi Wake Up Light",
+        "description": "Atur simulasi matahari terbit alami dengan kurva penyesuaian persepsi kuadratik.",
+        "data": {
+          "light_entities": "Lampu Target",
+          "alarm_source_type": "Jenis Sumber Alarm",
+          "alarm_entity": "Entitas Alarm",
+          "manual_time": "Waktu Bangun",
+          "days": "Hari Aktif",
+          "duration": "Durasi Default (menit)",
+          "duration_entity": "Entitas Durasi Dinamis (opsional)",
+          "enabled_entity": "Sakelar/Pembantu Master (opsional)",
+          "curve_style": "Suhu Warna / Gaya Gradien",
+          "start_brightness": "Kecerahan Awal (%)",
+          "max_brightness": "Kecerahan Target (%)",
+          "auto_off_minutes": "Waktu Mati Otomatis (menit, 0 untuk nonaktif)",
+          "stop_on_manual_switch": "Batalkan simulasi jika lampu dimatikan manual"
+        }
+      }
+    },
+    "error": {
+      "no_lights_selected": "Silakan pilih setidaknya satu entitas lampu.",
+      "no_alarm_entity_selected": "Silakan pilih entitas alarm untuk sumber alarm yang dipilih."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Opsi Wake Up Light",
+        "description": "Perbarui parameter matahari terbit, waktu, atau lampu target.",
+        "data": {
+          "light_entities": "Lampu Target",
+          "alarm_source_type": "Jenis Sumber Alarm",
+          "alarm_entity": "Entitas Alarm",
+          "manual_time": "Waktu Bangun",
+          "days": "Hari Aktif",
+          "duration": "Durasi Default (menit)",
+          "duration_entity": "Entitas Durasi Dinamis (opsional)",
+          "enabled_entity": "Sakelar/Pembantu Master (opsional)",
+          "curve_style": "Suhu Warna / Gaya Gradien",
+          "start_brightness": "Kecerahan Awal (%)",
+          "max_brightness": "Kecerahan Target (%)",
+          "auto_off_minutes": "Waktu Mati Otomatis (menit, 0 untuk nonaktif)",
+          "stop_on_manual_switch": "Batalkan simulasi jika lampu dimatikan manual"
+        }
+      }
+    },
+    "error": {
+      "no_lights_selected": "Silakan pilih setidaknya satu entitas lampu.",
+      "no_alarm_entity_selected": "Silakan pilih entitas alarm untuk sumber alarm yang dipilih."
+    }
+  },
+  "selector": {
+    "alarm_source_type": {
+      "options": {
+        "input_datetime": "Pembantu Waktu (input_datetime)",
+        "sensor": "Sensor Alarm Berikutnya (Aplikasi / Alexa)",
+        "time": "Jadwal Tetap / Hari dalam Seminggu"
+      }
+    },
+    "curve_style": {
+      "options": {
+        "sunrise": "Matahari Terbit Realistis (Kuning Jingga ke Siang Hari 4800K)",
+        "warm": "Cahaya Hangat (Kuning Jingga ke Putih Hangat 3000K)",
+        "brightness_only": "Hanya Kecerahan (Warna tidak berubah)"
+      }
+    },
+    "days": {
+      "options": {
+        "mon": "Senin",
+        "tue": "Selasa",
+        "wed": "Rabu",
+        "thu": "Kamis",
+        "fri": "Jumat",
+        "sat": "Sabtu",
+        "sun": "Minggu"
+      }
+    }
+  },
+  "entity": {
+    "switch": {
+      "profile": {
+        "name": "Profil"
+      }
+    },
+    "sensor": {
+      "status": {
+        "name": "Status",
+        "state": {
+          "idle": "Siap",
+          "simulating": "Simulasi Berjalan",
+          "snoozed": "Ditunda (Snooze)",
+          "completed": "Selesai"
+        }
+      },
+      "progress": {
+        "name": "Kemajuan Matahari Terbit"
+      },
+      "next_start": {
+        "name": "Awal Matahari Terbit Berikutnya"
+      }
+    },
+    "button": {
+      "start": {
+        "name": "Uji Matahari Terbit"
+      },
+      "stop": {
+        "name": "Hentikan Matahari Terbit"
+      },
+      "snooze": {
+        "name": "Tunda (Snooze)"
+      }
+    }
+  },
+  "services": {
+    "start": {
+      "name": "Mulai Matahari Terbit",
+      "description": "Mulai simulasi matahari terbit segera."
+    },
+    "stop": {
+      "name": "Hentikan Matahari Terbit",
+      "description": "Hentikan simulasi matahari terbit yang aktif."
+    },
+    "snooze": {
+      "name": "Tunda",
+      "description": "Tunda lampu bangun untuk jumlah menit yang ditentukan."
+    }
+  }
+}
